@@ -19,8 +19,8 @@ namespace WebApi.TODOList.Data
 
             var tasks = new Todo[]
             {
-                new Todo{Name="First task",Description="whaaat m8, no wei hello"},
-                new Todo{Name="Second task",Description="whaaat m8, no wei hello"}
+                new Todo{Name="First task",Description="whaaat m8, no wei hello",CreateDate = DateTime.Parse("2010-09-01")},
+                new Todo{Name="Second task",Description="whaaat m8, no wei hello",CreateDate = DateTime.Parse("2010-09-02")}
             };
 
             foreach (var item in tasks)

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.TODOList.Entities;
+using WebApi.TODOList.Services;
 
 namespace WebApi.TODOList
 {
@@ -28,6 +29,8 @@ namespace WebApi.TODOList
             services.AddMvc();
 
             services.AddDbContext<TodosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TodoConnectionString")));
+
+            services.AddScoped<ITodosRepository, TodosRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
