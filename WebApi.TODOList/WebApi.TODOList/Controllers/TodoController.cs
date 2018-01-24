@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.TODOList.Entities;
 using WebApi.TODOList.Models;
 using WebApi.TODOList.Services;
 
 namespace WebApi.TODOList.Controllers
 {
-    [Route("api/todos")]
+    [Route("api/todo")]
     public class TodoController : Controller
     {
         private ITodosRepository _todosRepository;
@@ -19,7 +20,7 @@ namespace WebApi.TODOList.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetTodos()
+        public IActionResult GetTodoList()
         {
             var todos = _todosRepository.GetTodos();
 
@@ -40,7 +41,7 @@ namespace WebApi.TODOList.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetTodo(int id)
         {
             var todo = _todosRepository.GetTodo(id);
@@ -60,6 +61,81 @@ namespace WebApi.TODOList.Controllers
             };
             return Ok(result);
         }
+
+        [HttpPost()]
+        public IActionResult CreateTodo([FromBody] Todo todo)
+        {
+            if (todo == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            todo.CreateDate = DateTime.Now;
+
+            _todosRepository.CreateTodo(todo);
+
+            if (!_todosRepository.Save())
+            {
+                return StatusCode(500, "Error.");
+            }
+
+            return CreatedAtRoute("GetTodo", new {id = todo.Id }, todo);
+
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] Todo todo)
+        {
+            if (todo == null)
+            {
+                return BadRequest();
+            }
+
+            var ttdo = _todosRepository.GetTodo(id);
+            if (ttdo == null)
+            {
+                return NotFound();
+            }
+
+            ttdo.Name = todo.Name;
+            ttdo.Description = todo.Description;
+            ttdo.EditedDate = DateTime.Now;
+
+            _todosRepository.UpdateTodo(ttdo);
+            _todosRepository.Save();
+
+            return NoContent();
+        }
+
+
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTodo(int id)
+        {
+
+            var todo = _todosRepository.GetTodo(id);
+
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            _todosRepository.DeleteTodo(todo);
+
+            if (!_todosRepository.Save())
+            {
+                return StatusCode(500, "Error.");
+            }
+
+            return NoContent();
+        }
+
 
     }
 }

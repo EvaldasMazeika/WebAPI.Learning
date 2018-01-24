@@ -10,5 +10,9 @@ namespace WebApi.TODOList.Services
     {
         IEnumerable<Todo> GetTodos();
         Todo GetTodo(int todoId);
+        void CreateTodo(Todo todo);
+        void DeleteTodo(Todo todo);
+        void UpdateTodo(Todo todo);
+        bool Save();
     }
 }
