@@ -11,9 +11,10 @@ using WebApi.TODOList.Entities;
 namespace WebApi.TODOList.Migrations
 {
     [DbContext(typeof(TodosContext))]
-    partial class TodosContextModelSnapshot : ModelSnapshot
+    [Migration("20180204180643_CommetAdd")]
+    partial class CommetAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

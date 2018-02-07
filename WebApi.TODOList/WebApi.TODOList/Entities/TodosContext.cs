@@ -13,10 +13,12 @@ namespace WebApi.TODOList.Entities
         {
         }
         public DbSet<Todo> Todo { get; set; }
+        public DbSet<Comment> Comment { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Todo>().ToTable("Todos");
+            modelBuilder.Entity<Comment>().ToTable("Comments");
         }
     }
 }

@@ -23,5 +23,8 @@ namespace WebApi.TODOList.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? EditedDate { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     }
 }
